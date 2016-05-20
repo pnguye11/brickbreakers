@@ -1,3 +1,5 @@
+
+
 canvas = document.createElement("canvas");
 canvas.width = 800;
 canvas.height = 600;
@@ -13,6 +15,7 @@ var row = 7;
 var columns = 5;
 var total = rows * columns; ///// total number of bricks
 var score = 0;
+var gameScore = 0;
 var lives = 0;
 
 function setup () {
@@ -34,9 +37,93 @@ function draw() {
     myPaddle.update();
     myBall.update();
 
+    /// ball hits left of paddle\\\
+  if(myBall.y == myPaddle.y && myBall.x > myPaddle.x  && myBall.x <= myPaddle.x + (myPaddle.w/2)) {
+    myBall.goLeft();
+    myBall.changeY();
+  }
+  ////if ball hits right of paddle\\\
+  if(myBall.y == myPaddle.y && myball.x > myPaddle.x + (myPaddle.w/2) && myball.x <= myPaddle.x + myPaddle.w ) {
+    myball.goRight();
+    myball.changeY();
+  }
+  //// ball hit right wall \\\\
+  if(myball.x + myball.D / 2 >= width) {
+    myball.goLeft();
+  }
+  //// ball hit left of wall \\\
+  if(myball.x - myball.D / 2 <= 0) {
+    myball.goRight();
+  }
+  ////if ball hit ceiling\\\
+  if(myball.y - myball.D / 2 <= 0) {
+    myBall.changeY();
+  }
 
+  ///// ball hitting bot brick move down\\\
+  for(var i = 0; i < total; i ++) {
+    if (myball.y - myball.D / 2 <= box[i].y + box[i].h &&  myball.y - myball.D/2 >= box[i].y && myball.x >= box[i].x && myball.x <= box[i].x + box[i].w  && box[i].hit == false ) {
+      myball.changeY();
+      box[i].gotHit();
+      score += 1;
+      gameScore += 10;
+    }
+  }
+  //// ball hitting top of brick bounce up\\\\
+    if(myball.y + myball.D / 2 >= box[i].y && myball.y - myball.D /2 <= box[i].y + box[i].h/2 && myball.x >= box[i].x && myball.x <= box[i].x + box[i].w && box[i].hit == false ) {
+      myball.changeY();
+      box[i].gotHit();
+      score += 1;
+      gameScore += 10;
+    }
+    //if ball hits the left of the brick, ball switches to the right, and moves in same direction\\\\
+    if(myball.x + myball.D / 2 >= box[i].x && myball.x + myball.D / 2 <= box[i].x + box[i].w / 2 && myball.y >= box[i].y && myball.y <= box[i].y + box[i].h  && box[i].hit == false) {
+      myball.goLeft();
+      box[i].gotHit();
+      score += 1;
+      gameScore += 10;
+    }
+    //if ball hits the right of the brick, ball switches to the left, and moves in same direction\\
+    if(myball.x - myball.D/2 <= box[i].x + box[i].w && myball.x +myball.D / 2 >= box[i].x + box[i].w / 2 && myball.y >= box[i].y && myball.y <= box[i].y + box[i].h  && box[i].hit == false) {
+      myball.goRight();
+      box[i].gotHit();
+      score += 1;
+      gameScore += 10;
+    }
+    /// if ball goes off screen, reset ball and lose life \\\
+    if(myball.y > height) {
+      myball.reset();
+      lives -= 1;
+    }
   }
 }
+
+////paddle
+class Paddle {
+  float x;
+  float y;
+  float w;
+  float h;
+  float r; //red value
+  float g; // green value
+  float b; //blue value
+
+  Paddle(){
+    x = width/2;
+    y = 500;
+    w = 100;
+    h = 10;
+    r = 225;
+    g = 225;
+    b = 225;
+  }
+
+  function update() {
+    fill(r, g, b);
+    rect(x, y, w, h);
+  }
+}
+
 ///ball \\\\
 class Ball {
   float x;
