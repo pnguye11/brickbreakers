@@ -1,5 +1,21 @@
+body {
+  display: block;
+  margin: auto;
+  padding: 25px;
+  text-align: center;
+}
+
 h1 {
   color: blue;
+  position: absolute;
+  margin: auto;
+  text-align: center;
+  display: block;
+
+}
+
+div.buttons {
+  color: red;
 }
 
 canvas {
@@ -10,6 +26,7 @@ canvas {
   bottom: 0px;
   right: 0px;
   left: 0px;
+  display: block;
 
 }
 
