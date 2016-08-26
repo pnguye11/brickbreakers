@@ -34,5 +34,5 @@ Click "Start" to play!
 **Trello:**
 [Trello Link](https://trello.com/b/f9DCdhAm/project-1) 
 
-**Play**
+**Play:**
 [Click Here To Play](http://pnguye11.github.io/brickbreakers/) 
